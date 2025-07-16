@@ -1,16 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+  <meta charset="UTF-8">
   <title>Mi plataforma de streaming</title>
-  <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+  <script src="https://cdn.dashjs.org/v5.0.3/dash.all.min.js"></script>
 </head>
 <body>
   <h2>Reproductor de video mediante MPEG-DASH (Adaptive Bitrate)</h2>
   <video id="videoPlayer" controls width="640" height="360"></video>
+  <div id="info" style="margin-top: 10px; font-family: Arial, sans-serif;"></div>
+
   <script>
     const url = "/static/output/manifest.mpd";
     const player = dashjs.MediaPlayer().create();
     player.initialize(document.querySelector("#videoPlayer"), url, true);
+
+    function updateInfo() {
+      const rep = player.getCurrentRepresentationForType("video");
+      const infoDiv = document.getElementById("info");
+
+      if (rep) {
+        const bitrate = rep.bitrateInKbit;
+        const width = rep.width || "N/A";
+        const height = rep.height || "N/A";
+
+        infoDiv.innerHTML =
+          `Bitrate actual: ${bitrate} kbps<br>` +
+          `Resolución: ${width}x${height}`;
+      } else {
+        infoDiv.innerHTML = "Cargando información...";
+      }
+    }
+
+    setInterval(updateInfo, 1000);
   </script>
 </body>
 </html>

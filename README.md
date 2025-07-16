@@ -120,3 +120,25 @@ Para generar los segmentos MPEG-DASH a partir de tu video, ejecuta el siguiente 
 ```bash
 python process_dash.py
 ```
+
+## Ejecución del servidor web
+
+Para iniciar la aplicación web y acceder a la interfaz desde tu navegador, ejecuta el siguiente comando en la raíz del proyecto:
+
+```bash
+python app.py
+```
+
+Luego abre tu navegador y visita:  
+[http://localhost:5000](http://localhost:5000)
+
+## Funcionamiento de `index.html`
+
+El archivo `templates/index.html` es la página principal de la aplicación web y contiene un reproductor de video que utiliza MPEG-DASH para streaming adaptativo.
+
+- Incluye la librería [dash.js](https://github.com/Dash-Industry-Forum/dash.js) desde un CDN.
+- Muestra un elemento `<video>` en la página.
+- Mediante un script JavaScript, inicializa el reproductor dash.js y le indica que cargue el manifiesto MPEG-DASH generado (`/static/output/manifest.mpd`).
+- El reproductor selecciona automáticamente la calidad de video más adecuada según el ancho de banda del usuario.
+
+De esta forma, al acceder a la web, puedes reproducir el video adaptativo generado por el script de procesamiento.
